@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Player Profile · Sportavo</title>
+  <meta name="description" content="Official player profile powered by Sportavo.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold:    '#C9A84C',
+            'gold-l': '#E5C97A',
+            'gold-d': '#8C6E2A',
+            base:    '#080809',
+            surface: '#0F0F11',
+            raised:  '#161618',
+            rim:     'rgba(255,255,255,0.07)',
+          },
+          fontFamily: {
+            display: ['Sora', 'sans-serif'],
+            body:    ['Manrope', 'sans-serif'],
+          },
+          letterSpacing: { tightest: '-0.04em', tight: '-0.025em' },
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Root tokens ─────────────────────────────────────── */
+    :root {
+      --gold:      #C9A84C;
+      --gold-l:    #E5C97A;
+      --gold-dim:  rgba(201,168,76,0.12);
+      --gold-glow: rgba(201,168,76,0.25);
+      --base:      #080809;
+      --surface:   #0F0F11;
+      --raised:    #161618;
+      --rim:       rgba(255,255,255,0.07);
+      --text:      #F0F0EC;
+      --muted:     #888891;
+      --faint:     #3A3A42;
+    }
+
+    /* ── Base ────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--base);
+      color: var(--text);
+      font-family: 'Manrope', sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── Noise texture overlay ───────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Typography ──────────────────────────────────────── */
+    .font-display { font-family: 'Sora', sans-serif; }
+    h1, h2, h3, h4 { font-family: 'Sora', sans-serif; font-weight: 700; }
+
+    /* ── Section label (e.g. "01 / About") ──────────────── */
+    .section-label {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.8;
+    }
+
+    /* ── Gold underline accent ───────────────────────────── */
+    .gold-line {
+      display: block;
+      width: 2.5rem;
+      height: 2px;
+      background: var(--gold);
+      margin-top: 0.75rem;
+    }
+
+    /* ── Card base ───────────────────────────────────────── */
+    .card {
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-radius: 12px;
+      box-shadow: 0 2px 0 rgba(255,255,255,0.04) inset,
+                  0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    /* ── Nav ─────────────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    #nav.scrolled {
+      background: rgba(8,8,9,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom-color: var(--rim);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: -0.01em;
+      color: var(--gold);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.1rem;
+      border: 1px solid var(--rim);
+      border-radius: 6px;
+      padding: 0.18rem 0.4rem;
+    }
+    .lang-btn {
+      background: none;
+      border: none;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 0.18rem 0.38rem;
+      border-radius: 3px;
+      transition: color 0.2s, background 0.2s;
+      line-height: 1;
+    }
+    .lang-btn.active {
+      color: var(--gold);
+      background: var(--gold-dim);
+    }
+    .lang-btn:hover:not(.active) { color: var(--text); }
+    .lang-sep {
+      color: var(--faint);
+      font-size: 0.58rem;
+      pointer-events: none;
+      user-select: none;
+    }
+    .nav-cta {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      background: var(--gold);
+      color: #000;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--gold-l); transform: translateY(-1px); }
+    .nav-cta:active { transform: translateY(0); }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── Hero ─────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center top;
+      background-repeat: no-repeat;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to top, rgba(8,8,9,0.97) 0%, rgba(8,8,9,0.6) 40%, rgba(8,8,9,0.25) 70%, rgba(8,8,9,0.1) 100%),
+        linear-gradient(to right, rgba(8,8,9,0.5) 0%, transparent 50%);
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 7rem 1.5rem 4.5rem;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 99px;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .hero-name {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: clamp(3.2rem, 9vw, 8rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+    }
+    .hero-name span { color: var(--gold); }
+    .hero-headline {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      font-weight: 400;
+      color: rgba(240,240,236,0.65);
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+    .hero-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 4px;
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      color: var(--muted);
+    }
+    .hero-tag.accent {
+      background: var(--gold-dim);
+      border-color: rgba(201,168,76,0.25);
+      color: var(--gold-l);
+    }
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      background: var(--gold);
+      color: #000;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      border: none;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: var(--gold-l); transform: translateY(-2px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.6rem;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-radius: 8px;
+      border: 1px solid var(--rim);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: pointer;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); transform: translateY(-2px); }
+    .btn-ghost:active { transform: translateY(0); }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-scroll-line {
+      width: 32px;
+      height: 1px;
+      background: var(--muted);
+    }
+
+    /* ── Section wrapper ─────────────────────────────────── */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem;
+    }
+    .section-head { margin-bottom: 3.5rem; }
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-top: 0.75rem;
+    }
+
+    /* ── Story ───────────────────────────────────────────── */
+    #story-section { border-top: 1px solid var(--rim); }
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 5rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .story-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+    .story-text p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: rgba(240,240,236,0.75);
+      margin-bottom: 1.25rem;
+    }
+    .story-text p:last-child { margin-bottom: 0; }
+    .story-image-frame {
+      position: relative;
+    }
+    .story-image-frame img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
+      object-fit: cover;
+      aspect-ratio: 3/4;
+    }
+    .story-image-frame::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 1px solid rgba(201,168,76,0.2);
+      border-radius: 14px;
+      z-index: 0;
+    }
+    .story-image-frame img { position: relative; z-index: 1; }
+    .story-detail-strip {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rim);
+    }
+    .story-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .story-detail-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .story-detail-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── Career Timeline ─────────────────────────────────── */
+    #career-section { border-top: 1px solid var(--rim); }
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold) 0%, transparent 100%);
+    }
+    .timeline-item {
+      position: relative;
+      padding-bottom: 3rem;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: -2.375rem;
+      top: 6px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--base);
+      border: 2px solid var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+    }
+    .timeline-dot.current {
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.2), 0 0 12px rgba(201,168,76,0.4);
+    }
+    .timeline-years {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.3rem;
+    }
+    .timeline-club {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-role {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .timeline-note {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(240,240,236,0.5);
+      max-width: 560px;
+    }
+
+    /* ── Key Stats ───────────────────────────────────────── */
+    #stats-section {
+      background: var(--surface);
+      border-top: 1px solid var(--rim);
+      border-bottom: 1px solid var(--rim);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 0;
+    }
+    .stat-item {
+      padding: 2.5rem 1.5rem;
+      border-right: 1px solid var(--rim);
+      text-align: center;
+    }
+    .stat-item:last-child { border-right: none; }
+    @media (max-width: 640px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-bottom: 1px solid var(--rim); }
+      .stat-item:nth-child(even) { border-right: none; }
+    }
+    .stat-number {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--gold);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* ── Highlights ──────────────────────────────────────── */
+    #highlights-section { border-top: 1px solid var(--rim); }
+    .highlights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .highlight-card {
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
+    }
+    .highlight-card:hover {
+      border-color: rgba(201,168,76,0.35);
+      transform: translateY(-4px);
+    }
+    .highlight-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .highlight-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .highlight-card:hover .highlight-thumb img { transform: scale(1.04); }
+    .play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(8,8,9,0.4);
+      transition: background 0.2s;
+    }
+    .highlight-card:hover .play-btn { background: rgba(8,8,9,0.2); }
+    .play-circle {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.4);
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .highlight-card:hover .play-circle { transform: scale(1.12); }
+    .play-circle svg { margin-left: 3px; }
+    .highlight-body { padding: 1.25rem 1.25rem 1.5rem; }
+    .highlight-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
+    }
+    .highlight-desc {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* ── Gallery ─────────────────────────────────────────── */
+    #gallery-section { border-top: 1px solid var(--rim); }
+    .gallery-columns {
+      columns: 3;
+      column-gap: 0.75rem;
+    }
+    @media (max-width: 900px) { .gallery-columns { columns: 2; } }
+    @media (max-width: 560px) { .gallery-columns { columns: 1; } }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 0.75rem;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .gallery-item img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+      transition: transform 0.4s ease;
+      background: var(--surface);
+    }
+    .gallery-item:hover img { transform: scale(1.03); }
+    .gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(8,8,9,0.5) 0%, transparent 50%);
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover::after { opacity: 1; }
+
+    /* ── Social ──────────────────────────────────────────── */
+    #social-section { border-top: 1px solid var(--rim); }
+    .social-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 560px;
+    }
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .social-link:hover {
+      border-color: rgba(201,168,76,0.3);
+      transform: translateX(6px);
+    }
+    .social-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--gold-dim);
+      border: 1px solid rgba(201,168,76,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+    }
+    .social-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .social-handle {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.1rem;
+    }
+    .social-arrow {
+      margin-left: auto;
+      color: var(--faint);
+      transition: color 0.2s;
+    }
+    .social-link:hover .social-arrow { color: var(--gold); }
+
+    /* ── Contact ─────────────────────────────────────────── */
+    #contact-section { border-top: 1px solid var(--rim); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 3rem;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+    .contact-intro {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: rgba(240,240,236,0.65);
+      margin-bottom: 2rem;
+    }
+    .contact-email-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(201,168,76,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-email-link:hover { border-bottom-color: var(--gold); color: var(--gold-l); }
+    .agent-card {
+      background: var(--surface);
+      border: 1px solid var(--rim);
+      border-radius: 12px;
+      padding: 1.75rem;
+    }
+    .agent-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .agent-name {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+    .agent-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .agent-row a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .agent-row a:hover { color: var(--text); }
+
+    /* ── Elite: Career Moments ───────────────────────────── */
+    .moments-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .moment-card {
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-left: 3px solid var(--gold);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+    .moment-year {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .moment-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+    .moment-desc {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    /* ── Elite: Media ────────────────────────────────────── */
+    .media-list { display: flex; flex-direction: column; gap: 1rem; }
+    .media-item {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 1.25rem;
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+    .media-item:hover { border-color: rgba(201,168,76,0.3); }
+    .media-source {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.25rem;
+    }
+    .media-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .media-date { font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+
+    /* ── Elite: Latest Updates ───────────────────────────── */
+    .updates-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .update-item {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-radius: 8px;
+      align-items: flex-start;
+    }
+    .update-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 0.5rem;
+      flex-shrink: 0;
+    }
+    .update-date { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.2rem; }
+    .update-text { font-size: 0.88rem; color: var(--text); line-height: 1.6; }
+
+    /* ── Elite: Featured Quote ───────────────────────────── */
+    #quote-section {
+      background: var(--surface);
+      border-top: 1px solid var(--rim);
+      border-bottom: 1px solid var(--rim);
+    }
+    .quote-mark {
+      font-family: 'Sora', sans-serif;
+      font-size: 6rem;
+      line-height: 0.6;
+      color: var(--gold);
+      opacity: 0.3;
+      user-select: none;
+    }
+    .quote-text {
+      font-family: 'Sora', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.35;
+      color: var(--text);
+      max-width: 820px;
+      margin-bottom: 1.5rem;
+    }
+    .quote-attr {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .quote-attr strong { color: var(--gold); font-weight: 600; }
+
+    /* ── Elite: Personal Brand ───────────────────────────── */
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .brand-card {
+      background: var(--raised);
+      border: 1px solid var(--rim);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+    }
+    .brand-card-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .brand-card-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .brand-card-text {
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: rgba(240,240,236,0.6);
+    }
+
+    /* ── Footer ──────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rim);
+      padding: 2rem 1.5rem;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .footer-sportavo {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-sportavo:hover { color: var(--gold); }
+    .footer-sportavo strong { color: var(--gold); font-weight: 700; }
+
+    /* ── Scroll reveal ───────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+    .reveal-delay-5 { transition-delay: 0.40s; }
+
+    /* ── Contact extras ─────────────────────────────────── */
+    .contact-grid--solo { grid-template-columns: 1fr; }
+    .contact-links-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+    .contact-info-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .contact-info-row a {
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-info-row a:hover { color: var(--gold); }
+    .contact-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #25D366;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(37,211,102,0.3);
+      padding-bottom: 2px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .contact-whatsapp:hover { border-bottom-color: #25D366; }
+
+    /* ── Loading ─────────────────────────────────────────── */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9000;
+      transition: opacity 0.4s;
+    }
+    .loader-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.2; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── Scrollbar ───────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--base); }
+    ::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-d); }
+
+    /* ── Focus visible ───────────────────────────────────── */
+    :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- Loading screen -->
+<div id="loading">
+  <div style="display:flex;gap:8px;">
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav id="nav">
+  <div class="nav-inner">
+    <span class="nav-name" id="nav-name">Sportavo</span>
+    <div class="nav-links" id="nav-links"></div>
+    <div class="nav-right">
+      <div class="lang-toggle" id="lang-toggle">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <span class="lang-sep">·</span>
+        <button class="lang-btn" data-lang="ro">RO</button>
+      </div>
+      <a href="#contact" class="nav-cta" id="nav-cta">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- App root -->
+<div id="app" style="opacity:0;transition:opacity 0.5s;"></div>
+
+<script>
+// ── SVG icons ────────────────────────────────────────────────
+const ICONS = {
+  play: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`,
+  mail: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+  phone: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  arrow: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`,
+  link: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  instagram: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>`,
+  tiktok: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.16 8.16 0 0 0 4.77 1.52V6.77a4.85 4.85 0 0 1-1-.08z"/></svg>`,
+  youtube: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.5a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zm-12.57 9V8.5l5.74 3.5-5.74 3.42z"/></svg>`,
+  transfermarkt: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+  twitter: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+  facebook: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>`,
+  linkedin: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>`,
+  whatsapp: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>`,
+};
+
+// ── Global state ─────────────────────────────────────────────
+let LANG   = 'en';
+let PLAYER = null;
+
+// ── UI label translations ─────────────────────────────────────
+const UI = {
+  en: {
+    about:           'About',
+    career:          'Career',
+    highlights:      'Highlights',
+    gallery:         'Gallery',
+    follow:          'Follow',
+    contact:         'Contact',
+    watchHighlights: 'Watch Highlights',
+    getInTouch:      'Get in Touch',
+    officialBadge:   'Official Personal Profile · Powered by Sportavo',
+    poweredBy:       'Powered by <strong>Sportavo</strong>',
+    scroll:          'Scroll',
+    thePlayer:       'The Player',
+    careerPath:      'Career Path',
+    watch:           'Watch',
+    photos:          'Photos',
+    management:      'Management &amp; Representation',
+    sectionAbout:    '01 / About',
+    sectionCareer:   '02 / Career',
+    sectionHighlights:'03 / Highlights',
+    sectionGallery:  '04 / Gallery',
+    sectionOnline:   'Online',
+    sectionContact:  'Contact',
+    eliteMoments:    'Elite / Moments',
+    eliteMedia:      'Elite / Media',
+    eliteUpdates:    'Elite / Updates',
+    eliteIdentity:   'Elite / Identity',
+    careerMoments:   'Career Moments',
+    pressMedia:      'Press &amp; Media',
+    latestNews:      'Latest News',
+    beyondPitch:     'Beyond the Pitch',
+    allRights:       'All rights reserved.',
+  },
+  ro: {
+    about:           'Despre',
+    career:          'Carieră',
+    highlights:      'Highlight-uri',
+    gallery:         'Galerie',
+    follow:          'Urmărește',
+    contact:         'Contact',
+    watchHighlights: 'Vezi highlight-uri',
+    getInTouch:      'Contact',
+    officialBadge:   'Profil personal oficial · Creat cu Sportavo',
+    poweredBy:       'Creat cu <strong>Sportavo</strong>',
+    scroll:          'Derulează',
+    thePlayer:       'Jucătorul',
+    careerPath:      'Carieră',
+    watch:           'Video',
+    photos:          'Galerie',
+    management:      'Management și Reprezentare',
+    sectionAbout:    '01 / Despre',
+    sectionCareer:   '02 / Carieră',
+    sectionHighlights:'03 / Highlight-uri',
+    sectionGallery:  '04 / Galerie',
+    sectionOnline:   'Online',
+    sectionContact:  'Contact',
+    eliteMoments:    'Elite / Momente',
+    eliteMedia:      'Elite / Media',
+    eliteUpdates:    'Elite / Noutăți',
+    eliteIdentity:   'Elite / Identitate',
+    careerMoments:   'Momente cheie',
+    pressMedia:      'Presă și Media',
+    latestNews:      'Ultimele noutăți',
+    beyondPitch:     'Dincolo de teren',
+    allRights:       'Toate drepturile rezervate.',
+  }
+};
+
+// Resolve a UI label with EN fallback
+function ui(key, lang) {
+  const dict = UI[lang] || UI.en;
+  return dict[key] !== undefined ? dict[key] : (UI.en[key] !== undefined ? UI.en[key] : key);
+}
+
+// Resolve a translatable player field (string or {en, ro} object) with EN fallback
+function t(field, lang) {
+  if (field === null || field === undefined) return '';
+  if (typeof field === 'string') return field;
+  if (typeof field === 'object' && !Array.isArray(field)) {
+    return field[lang] !== undefined ? field[lang] : (field.en || '');
+  }
+  return String(field);
+}
+
+// Resolve a translatable array field (array or {en: [...], ro: [...]}) with EN fallback
+function tArr(field, lang) {
+  if (!field) return [];
+  if (Array.isArray(field)) return field;
+  if (typeof field === 'object') {
+    const arr = field[lang] !== undefined ? field[lang] : (field.en || []);
+    return Array.isArray(arr) ? arr : [arr];
+  }
+  return [String(field)];
+}
+
+// ── Visibility helpers ────────────────────────────────────────
+
+function shouldShow(sections, key, hasData) {
+  if (sections && sections[key] === false) return false;
+  if (!hasData) return false;
+  if (Array.isArray(hasData) && hasData.length === 0) return false;
+  return true;
+}
+
+function hasSocialData(p) {
+  const s = p.socialLinks || {};
+  return Object.values(s).some(v => v && (v.handle || (v.url && v.url !== '#')));
+}
+
+// ── Builders ─────────────────────────────────────────────────
+
+function buildNav(p, sections, lang) {
+  document.getElementById('nav-name').textContent = p.name;
+  const cta = document.getElementById('nav-cta');
+  if (cta) cta.textContent = ui('contact', lang);
+  const sec = sections || {};
+  const defs = [
+    { href: '#story',      uiKey: 'about',      key: 'story',      check: p.story },
+    { href: '#career',     uiKey: 'career',     key: 'career',     check: p.career && p.career.length },
+    { href: '#highlights', uiKey: 'highlights', key: 'highlights', check: p.highlights && p.highlights.length },
+    { href: '#gallery',    uiKey: 'gallery',    key: 'gallery',    check: p.gallery && p.gallery.length },
+  ];
+  document.getElementById('nav-links').innerHTML = defs
+    .filter(d => shouldShow(sec, d.key, d.check))
+    .map(d => `<a href="${d.href}">${ui(d.uiKey, lang)}</a>`)
+    .join('');
+}
+
+function buildHero(p, lang) {
+  return `
+  <section id="hero" style="min-height:100svh;">
+    <div class="hero-bg" style="background-image:url('${p.heroImage}');"></div>
+    <div class="hero-inner">
+      <div class="hero-badge">${ui('officialBadge', lang)}</div>
+      <h1 class="hero-name">${p.name.split(' ')[0]} <span>${p.name.split(' ').slice(1).join(' ')}</span></h1>
+      <p class="hero-headline">${t(p.headline, lang)}</p>
+      <div class="hero-meta">
+        <span class="hero-tag accent">${p.position}</span>
+        <span class="hero-tag">${p.currentClub}</span>
+        <span class="hero-tag">${p.nationality}</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#highlights" class="btn-primary">
+          ${ICONS.play} ${ui('watchHighlights', lang)}
+        </a>
+        <a href="#contact" class="btn-ghost">
+          ${ui('getInTouch', lang)}
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      ${ui('scroll', lang)}
+    </div>
+  </section>`;
+}
+
+function buildStory(p, lang) {
+  const paragraphs = tArr(p.story, lang).map(txt => `<p>${txt}</p>`).join('');
+  const opt = p.optional || {};
+  const details = [
+    opt.birthYear && { label: 'Born', value: opt.birthYear },
+    opt.height && { label: 'Height', value: opt.height },
+    opt.foot && { label: 'Preferred Foot', value: opt.foot },
+    opt.shirtNumber && { label: 'Shirt Number', value: `#${opt.shirtNumber}` },
+  ].filter(Boolean);
+
+  const detailStrip = details.length ? `
+    <div class="story-detail-strip">
+      ${details.map(d => `
+        <div class="story-detail">
+          <span class="story-detail-label">${d.label}</span>
+          <span class="story-detail-value">${d.value}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  return `
+  <section id="story" style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('sectionAbout', lang)}</span>
+        <h2 class="section-title">${ui('thePlayer', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="story-grid">
+        <div class="story-text reveal reveal-delay-1">
+          ${paragraphs}
+          ${detailStrip}
+        </div>
+        <div class="story-image-frame reveal reveal-delay-2">
+          <img src="${p.profileImage}" alt="${p.name}" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function buildCareer(p, lang) {
+  if (!p.career || !p.career.length) return '';
+  const items = p.career.map((item, i) => {
+    const isCurrent = i === p.career.length - 1;
+    const noteText = t(item.note, lang);
+    return `
+    <div class="timeline-item reveal reveal-delay-${Math.min(i + 1, 5)}">
+      <div class="timeline-dot ${isCurrent ? 'current' : ''}"></div>
+      <div class="timeline-years">${item.years}</div>
+      <div class="timeline-club">${item.club}</div>
+      <div class="timeline-role">${item.role}</div>
+      ${noteText ? `<div class="timeline-note">${noteText}</div>` : ''}
+    </div>`;
+  }).reverse().join('');
+
+  return `
+  <section id="career" style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('sectionCareer', lang)}</span>
+        <h2 class="section-title">${ui('careerPath', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="timeline">${items}</div>
+    </div>
+  </section>`;
+}
+
+function buildStats(p) {
+  if (!p.keyStats || !p.keyStats.length) return '';
+  const items = p.keyStats.map(s => `
+    <div class="stat-item">
+      <span class="stat-number" data-target="${s.value}" data-suffix="${s.suffix || ''}">${s.value}${s.suffix || ''}</span>
+      <span class="stat-label">${s.label}</span>
+    </div>`).join('');
+
+  return `
+  <section id="stats" style="background:var(--surface);border-top:1px solid var(--rim);border-bottom:1px solid var(--rim);">
+    <div style="max-width:1280px;margin:0 auto;">
+      <div class="stats-grid reveal">${items}</div>
+    </div>
+  </section>`;
+}
+
+function buildHighlights(p, lang) {
+  if (!p.highlights || !p.highlights.length) return '';
+  const cards = p.highlights.map((h, i) => {
+    const href = h.videoUrl || '#highlights';
+    const title = t(h.title, lang);
+    const desc  = t(h.description, lang);
+    return `
+    <a href="${href}" class="highlight-card reveal reveal-delay-${i + 1}" ${h.videoUrl ? 'target="_blank" rel="noopener"' : ''}>
+      <div class="highlight-thumb">
+        <img src="${h.thumbnail}" alt="${title}" loading="lazy">
+        <div class="play-btn">
+          <div class="play-circle">${ICONS.play}</div>
+        </div>
+      </div>
+      <div class="highlight-body">
+        <div class="highlight-title">${title}</div>
+        <div class="highlight-desc">${desc}</div>
+      </div>
+    </a>`;
+  }).join('');
+
+  return `
+  <section id="highlights" style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('sectionHighlights', lang)}</span>
+        <h2 class="section-title">${ui('watch', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="highlights-grid">${cards}</div>
+    </div>
+  </section>`;
+}
+
+function buildGallery(p, lang) {
+  if (!p.gallery || !p.gallery.length) return '';
+  const items = p.gallery.map(img => {
+    const src = typeof img === 'string' ? img : img.src;
+    const alt = typeof img === 'string' ? 'Gallery photo' : (img.alt || 'Gallery photo');
+    return `
+    <div class="gallery-item">
+      <img src="${src}" alt="${alt}" loading="lazy">
+    </div>`;
+  }).join('');
+
+  return `
+  <section id="gallery" style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('sectionGallery', lang)}</span>
+        <h2 class="section-title">${ui('photos', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="gallery-columns reveal">${items}</div>
+    </div>
+  </section>`;
+}
+
+function buildSocial(p, lang) {
+  const s = p.socialLinks || {};
+  const ALL_PLATFORMS = [
+    { key: 'instagram',    label: 'Instagram',    icon: ICONS.instagram },
+    { key: 'tiktok',       label: 'TikTok',       icon: ICONS.tiktok },
+    { key: 'facebook',     label: 'Facebook',     icon: ICONS.facebook },
+    { key: 'youtube',      label: 'YouTube',      icon: ICONS.youtube },
+    { key: 'x',            label: 'X / Twitter',  icon: ICONS.twitter },
+    { key: 'twitter',      label: 'X / Twitter',  icon: ICONS.twitter },
+    { key: 'transfermarkt',label: 'Transfermarkt',icon: ICONS.transfermarkt },
+    { key: 'linkedin',     label: 'LinkedIn',     icon: ICONS.linkedin },
+    { key: 'website',      label: 'Website',      icon: ICONS.link },
+  ];
+
+  // Deduplicate labels (x and twitter both map to "X / Twitter", keep first found)
+  const seenLabels = new Set();
+  const active = ALL_PLATFORMS.filter(pl => {
+    if (seenLabels.has(pl.label)) return false;
+    const data = s[pl.key];
+    if (!data) return false;
+    const hasHandle = !!data.handle;
+    const hasUrl = data.url && data.url !== '#';
+    if (!hasHandle && !hasUrl) return false;
+    seenLabels.add(pl.label);
+    return true;
+  });
+
+  if (!active.length) return '';
+
+  const links = active.map((pl, i) => {
+    const data = s[pl.key];
+    const href = data.url || '#';
+    const subtitle = data.handle || data.url || '';
+    const isExternal = href !== '#';
+    return `
+    <a href="${href}" class="social-link reveal reveal-delay-${Math.min(i + 1, 5)}" ${isExternal ? 'target="_blank" rel="noopener"' : ''}>
+      <div class="social-icon">${pl.icon}</div>
+      <div>
+        <div class="social-name">${pl.label}</div>
+        <div class="social-handle">${subtitle}</div>
+      </div>
+      <div class="social-arrow">${ICONS.arrow}</div>
+    </a>`;
+  }).join('');
+
+  return `
+  <section id="social" style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('sectionOnline', lang)}</span>
+        <h2 class="section-title">${ui('follow', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="social-list">${links}</div>
+    </div>
+  </section>`;
+}
+
+function buildContact(p, sections, lang) {
+  const sec = sections || {};
+  const c = p.contact || {};
+  const a = p.agentContact || {};
+  const showAgent = sec.agent !== false && a && a.name;
+
+  const rows = [];
+  if (c.email && c.showEmail !== false) {
+    rows.push(`<a href="mailto:${c.email}" class="contact-email-link">${ICONS.mail} ${c.email}</a>`);
+  }
+  if (c.phone && c.showPhone !== false) {
+    rows.push(`<div class="contact-info-row">${ICONS.phone} <a href="tel:${c.phone.replace(/\s/g,'')}">${c.phone}</a></div>`);
+  }
+  if (c.whatsapp && c.showWhatsapp !== false) {
+    const waNum = c.whatsapp.replace(/[^0-9]/g, '');
+    rows.push(`<a href="https://wa.me/${waNum}" class="contact-whatsapp" target="_blank" rel="noopener">${ICONS.whatsapp} ${c.whatsapp}</a>`);
+  }
+
+  const leftCol = `
+    <div class="reveal reveal-delay-1">
+      ${c.contactMessage ? `<p class="contact-intro">${t(c.contactMessage, lang)}</p>` : ''}
+      ${rows.length ? `<div class="contact-links-stack">${rows.join('')}</div>` : ''}
+    </div>`;
+
+  const agentCol = showAgent ? `
+    <div class="agent-card reveal reveal-delay-2">
+      <div class="agent-label">${ui('management', lang)}</div>
+      <div class="agent-name">${a.name}</div>
+      ${a.email ? `<div class="agent-row">${ICONS.mail} <a href="mailto:${a.email}">${a.email}</a></div>` : ''}
+      ${a.phone ? `<div class="agent-row">${ICONS.phone} <a href="tel:${a.phone.replace(/\s/g,'')}">${a.phone}</a></div>` : ''}
+    </div>` : '';
+
+  return `
+  <section id="contact" style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('sectionContact', lang)}</span>
+        <h2 class="section-title">${ui('getInTouch', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="contact-grid${showAgent ? '' : ' contact-grid--solo'}">
+        ${leftCol}
+        ${agentCol}
+      </div>
+    </div>
+  </section>`;
+}
+
+// ── Elite section builders ────────────────────────────────────
+
+function buildCareerMoments(p, lang) {
+  if (!p.careerMoments || !p.careerMoments.length) return '';
+  const cards = p.careerMoments.map((m, i) => `
+    <div class="moment-card reveal reveal-delay-${i + 1}">
+      <div class="moment-year">${m.year}</div>
+      <div class="moment-title">${m.title}</div>
+      <div class="moment-desc">${m.description}</div>
+    </div>`).join('');
+
+  return `
+  <section style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('eliteMoments', lang)}</span>
+        <h2 class="section-title">${ui('careerMoments', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="moments-grid">${cards}</div>
+    </div>
+  </section>`;
+}
+
+function buildMedia(p, lang) {
+  if (!p.mediaArticles || !p.mediaArticles.length) return '';
+  const items = p.mediaArticles.map((a, i) => `
+    <a href="${a.url || '#'}" class="media-item reveal reveal-delay-${i + 1}" target="_blank" rel="noopener">
+      <div style="flex:1;">
+        <div class="media-source">${a.source}</div>
+        <div class="media-title">${a.title}</div>
+        <div class="media-date">${a.date}</div>
+      </div>
+      <div style="color:var(--faint);">${ICONS.link}</div>
+    </a>`).join('');
+
+  return `
+  <section style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('eliteMedia', lang)}</span>
+        <h2 class="section-title">${ui('pressMedia', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="media-list">${items}</div>
+    </div>
+  </section>`;
+}
+
+function buildUpdates(p, lang) {
+  if (!p.latestUpdates || !p.latestUpdates.length) return '';
+  const items = p.latestUpdates.map((u, i) => `
+    <div class="update-item reveal reveal-delay-${i + 1}">
+      <div class="update-dot"></div>
+      <div>
+        <div class="update-date">${u.date}</div>
+        <div class="update-text">${u.text}</div>
+      </div>
+    </div>`).join('');
+
+  return `
+  <section style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('eliteUpdates', lang)}</span>
+        <h2 class="section-title">${ui('latestNews', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="updates-list" style="max-width:720px;">${items}</div>
+    </div>
+  </section>`;
+}
+
+function buildQuote(p, lang) {
+  if (!p.featuredQuote) return '';
+  const q = p.featuredQuote;
+  return `
+  <section style="background:var(--surface);border-top:1px solid var(--rim);border-bottom:1px solid var(--rim);">
+    <div class="section">
+      <div class="reveal">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-text">${q.text}</blockquote>
+        <div class="quote-attr">— <strong>${q.author || p.name}</strong>${q.context ? `, ${q.context}` : ''}</div>
+      </div>
+    </div>
+  </section>`;
+}
+
+function buildPersonalBrand(p, lang) {
+  if (!p.personalBrandSection || !p.personalBrandSection.length) return '';
+  const cards = p.personalBrandSection.map((item, i) => `
+    <div class="brand-card reveal reveal-delay-${i + 1}">
+      ${item.emoji ? `<div class="brand-card-icon">${item.emoji}</div>` : ''}
+      <div class="brand-card-title">${item.title}</div>
+      <div class="brand-card-text">${item.text}</div>
+    </div>`).join('');
+
+  return `
+  <section style="border-top:1px solid var(--rim);">
+    <div class="section">
+      <div class="section-head reveal">
+        <span class="section-label">${ui('eliteIdentity', lang)}</span>
+        <h2 class="section-title">${ui('beyondPitch', lang)}</h2>
+        <span class="gold-line"></span>
+      </div>
+      <div class="brand-grid">${cards}</div>
+    </div>
+  </section>`;
+}
+
+function buildFooter(p, lang) {
+  return `
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© ${new Date().getFullYear()} ${p.name}. ${ui('allRights', lang)}</span>
+      <a href="https://sportavo.pro" class="footer-sportavo" target="_blank" rel="noopener">
+        ${ui('poweredBy', lang)}
+      </a>
+    </div>
+  </footer>`;
+}
+
+// ── Render ────────────────────────────────────────────────────
+
+function render(p, lang) {
+  const sec = p.sections || {};
+  const isElite = p.package === 'elite';
+  const parts = [];
+
+  parts.push(buildHero(p, lang));
+
+  if (shouldShow(sec, 'story', p.story))
+    parts.push(buildStory(p, lang));
+
+  if (shouldShow(sec, 'career', p.career && p.career.length))
+    parts.push(buildCareer(p, lang));
+
+  if (shouldShow(sec, 'stats', p.keyStats && p.keyStats.length))
+    parts.push(buildStats(p));
+
+  if (shouldShow(sec, 'highlights', p.highlights && p.highlights.length))
+    parts.push(buildHighlights(p, lang));
+
+  if (shouldShow(sec, 'gallery', p.gallery && p.gallery.length))
+    parts.push(buildGallery(p, lang));
+
+  if (shouldShow(sec, 'social', hasSocialData(p)))
+    parts.push(buildSocial(p, lang));
+
+  // Elite-only sections — rendered only if package = 'elite', section is true, and data exists
+  if (isElite) {
+    if (shouldShow(sec, 'careerMoments', p.careerMoments && p.careerMoments.length))
+      parts.push(buildCareerMoments(p, lang));
+
+    if (shouldShow(sec, 'media', p.mediaArticles && p.mediaArticles.length))
+      parts.push(buildMedia(p, lang));
+
+    if (shouldShow(sec, 'latestUpdates', p.latestUpdates && p.latestUpdates.length))
+      parts.push(buildUpdates(p, lang));
+
+    if (shouldShow(sec, 'featuredQuote', p.featuredQuote))
+      parts.push(buildQuote(p, lang));
+
+    if (shouldShow(sec, 'personalBrand', p.personalBrandSection && p.personalBrandSection.length))
+      parts.push(buildPersonalBrand(p, lang));
+  }
+
+  if (sec.contact !== false)
+    parts.push(buildContact(p, sec, lang));
+
+  parts.push(buildFooter(p, lang));
+
+  document.getElementById('app').innerHTML = parts.join('');
+  buildNav(p, sec, lang);
+}
+
+// ── Scroll reveal ─────────────────────────────────────────────
+
+function initScrollReveal() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+}
+
+// ── Stats count-up ────────────────────────────────────────────
+
+function initStatsCounter() {
+  const statEls = document.querySelectorAll('.stat-number[data-target]');
+  if (!statEls.length) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1400;
+      const start = performance.now();
+
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+
+  statEls.forEach(el => obs.observe(el));
+}
+
+// ── Nav scroll behavior ───────────────────────────────────────
+
+function initNav() {
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+}
+
+// ── Hero gradient bg fallback ─────────────────────────────────
+
+function initHeroBg(p) {
+  const bg = document.querySelector('.hero-bg');
+  if (!bg) return;
+  if (!p.heroImage || p.heroImage.includes('placehold.co?text=')) {
+    bg.style.background = 'radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.08) 0%, transparent 60%), var(--base)';
+  }
+}
+
+// ── Language switch ───────────────────────────────────────────
+
+function setLang(lang) {
+  LANG = lang;
+  localStorage.setItem('sportavo-lang', lang);
+
+  const scrollY = window.scrollY;
+  render(PLAYER, LANG);
+
+  requestAnimationFrame(() => {
+    initScrollReveal();
+    initStatsCounter();
+    window.scrollTo(0, scrollY);
+  });
+
+  // Sync toggle button active state
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === LANG);
+  });
+}
+
+// ── Main ──────────────────────────────────────────────────────
+
+async function init() {
+  try {
+    const res = await fetch('/data/player.json');
+    if (!res.ok) throw new Error('Could not load player.json');
+    PLAYER = await res.json();
+
+    // Restore saved language preference (default: en)
+    LANG = localStorage.getItem('sportavo-lang') || 'en';
+
+    render(PLAYER, LANG);
+
+    requestAnimationFrame(() => {
+      const loading = document.getElementById('loading');
+      const app = document.getElementById('app');
+      loading.style.opacity = '0';
+      app.style.opacity = '1';
+      setTimeout(() => loading.remove(), 400);
+    });
+
+    requestAnimationFrame(() => {
+      initNav();
+      initScrollReveal();
+      initStatsCounter();
+      initHeroBg(PLAYER);
+    });
+
+    // Sync toggle state with restored language
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === LANG);
+    });
+
+    // Wire up language toggle
+    document.getElementById('lang-toggle').addEventListener('click', e => {
+      const btn = e.target.closest('.lang-btn');
+      if (btn && btn.dataset.lang !== LANG) setLang(btn.dataset.lang);
+    });
+
+    document.title = `${PLAYER.name} · Official Profile · Sportavo`;
+  } catch (err) {
+    document.getElementById('loading').innerHTML = `
+      <div style="text-align:center;padding:2rem;max-width:400px;">
+        <div style="color:var(--gold);font-family:Sora,sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;">
+          Profile unavailable
+        </div>
+        <div style="color:var(--muted);font-size:0.85rem;line-height:1.6;">
+          Make sure the dev server is running:<br>
+          <code style="color:var(--gold-l);font-size:0.8rem;">node serve.mjs</code>
+        </div>
+      </div>`;
+    console.error(err);
+  }
+}
+
+init();
+</script>
+</body>
+</html>

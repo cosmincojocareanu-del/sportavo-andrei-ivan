@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p \"c:/Users/Cojo/Desktop/jo/Proiecte Claude Code/sportavo player template/data\" \"c:/Users/Cojo/Desktop/jo/Proiecte Claude Code/sportavo player template/assets/logo\" \"c:/Users/Cojo/Desktop/jo/Proiecte Claude Code/sportavo player template/assets/photos\" \"c:/Users/Cojo/Desktop/jo/Proiecte Claude Code/sportavo player template/assets/videos\" \"c:/Users/Cojo/Desktop/jo/Proiecte Claude Code/sportavo player template/temporary screenshots\")",
+      "PowerShell(node screenshot.mjs http://localhost:3000 v1-center-top 2>&1)",
+      "PowerShell(node -e \"try { JSON.parse\\(require\\('fs'\\).readFileSync\\('./data/player.json','utf8'\\)\\); console.log\\('JSON valid'\\); } catch\\(e\\) { console.error\\('ERROR:', e.message\\); }\" --prefix \"c:\\\\Users\\\\Cojo\\\\Desktop\\\\jo\\\\Proiecte Claude Code\\\\sportavo-alexandru-mateiu\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\Cojo\\Desktop\\jo\\Proiecte Claude Code\\sportavo player template",
+      "c:\\Users\\Cojo\\Desktop\\jo\\Proiecte Claude Code\\sportavo-alexandru-mateiu\\data",
+      "c:\\Users\\Cojo\\Desktop\\jo\\Proiecte Claude Code\\sportavo-alexandru-mateiu"
+    ]
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "package": "standard",
+  "sections": {
+    "story": true,
+    "career": true,
+    "stats": true,
+    "highlights": true,
+    "gallery": true,
+    "social": true,
+    "contact": true,
+    "agent": true,
+    "careerMoments": false,
+    "media": false,
+    "latestUpdates": false,
+    "featuredQuote": false,
+    "personalBrand": false
+  },
+  "name": "Andrei Ivan",
+  "slug": "andrei-ivan",
+  "headline": {
+    "en": "Romanian forward. International career. Story, status and a new chapter in Vietnam.",
+    "ro": "Atacant român. Carieră internațională. Poveste, statut și un nou capitol în Vietnam."
+  },
+  "shortIntro": {
+    "en": "A Romanian forward shaped by pressure, expectation and big football moments, now writing a new chapter in Vietnamese football.",
+    "ro": "Atacant român format sub presiune și așteptări mari, care scrie acum un nou capitol în fotbalul vietnamez."
+  },
+  "position": "Forward",
+  "currentClub": "Truong Tuoi Dong Nai FC",
+  "nationality": "Romania",
+  "story": {
+    "en": [
+      "Andrei Ivan is a Romanian forward shaped by pressure, expectation and big football moments. He emerged early at Universitatea Craiova, moved abroad to continue his development, returned to the club for defining chapters of his career and built a profile marked by trophies, national team appearances and experience across several European leagues.",
+      "His career is more than a list of clubs. It is the story of a player who lived the rise in Craiova, the challenge of international football across Russia, Austria, Turkey and Greece, the return home, and now a new, exotic chapter in Vietnam. Each stage added maturity, responsibility and status to his football identity."
+    ],
+    "ro": [
+      "Andrei Ivan este unul dintre atacanții români care au crescut în lumina unui club cu presiune, istorie și public exigent. Lansat devreme la Universitatea Craiova, a trecut prin fotbalul internațional, a revenit în Bănie pentru cele mai importante capitole ale carierei și a adunat trofee, selecții la echipa națională și experiențe în mai multe campionate europene.",
+      "Cariera lui nu este doar o listă de cluburi. Este povestea unui fotbalist care a trăit explozia de la Craiova, provocarea fotbalului internațional în Rusia, Austria, Turcia și Grecia, revenirea acasă și, acum, un nou capitol exotic în Vietnam. Pentru Andrei Ivan, fiecare etapă a adăugat ceva: maturitate, presiune, responsabilitate și statut."
+    ]
+  },
+  "heroImage": "/assets/photos/hero.jpg",
+"profileImage": "/assets/photos/profile.jpg",
+  "career": [
+    {
+      "years": "2014 – 2017",
+      "club": "Universitatea Craiova",
+      "role": "Centre-Forward",
+      "note": {
+        "en": "Made his senior debut at 17 and established himself as a promising forward in Romania's top flight.",
+        "ro": "A debutat la seniori la 17 ani și s-a impus ca un atacant promițător în primul eșalon din România."
+      }
+    },
+    {
+      "years": "2017 – 2019",
+      "club": "FC Krasnodar",
+      "role": "Centre-Forward",
+      "note": {
+        "en": "Moved abroad to Russia, taking on a new level of competition in the Russian Premier League.",
+        "ro": "A plecat în Rusia, confruntându-se cu un nivel nou de competiție în prima ligă rusă."
+      }
+    },
+    {
+      "years": "2018 – 2019",
+      "club": "Rapid Wien",
+      "role": "Centre-Forward · Loan",
+      "note": {
+        "en": "Spent a season on loan in Austria, reaching the Austrian Cup final with Rapid Wien.",
+        "ro": "A petrecut un sezon sub formă de împrumut în Austria, ajungând în finala Cupei Austriei cu Rapid Viena."
+      }
+    },
+    {
+      "years": "2019 – 2025",
+      "club": "Universitatea Craiova",
+      "role": "Centre-Forward",
+      "note": {
+        "en": "Returned to Craiova for the most decorated stretch of his career, winning the Romanian Cup and Super Cup.",
+        "ro": "S-a întors la Craiova pentru cel mai bogat capitol al carierei sale, câștigând Cupa României și Supercupa."
+      }
+    },
+    {
+      "years": "2025",
+      "club": "Adanaspor",
+      "role": "Centre-Forward · Loan",
+      "note": {
+        "en": "A short loan spell in Turkey, adding further experience abroad.",
+        "ro": "Un scurt împrumut în Turcia, o experiență în plus în fotbalul extern."
+      }
+    },
+    {
+      "years": "2025 – 2026",
+      "club": "Panserraikos",
+      "role": "Centre-Forward · #9",
+      "note": {
+        "en": "Spent a season in Greek football with Panserraikos.",
+        "ro": "A petrecut un sezon în fotbalul elen, la Panserraikos."
+      }
+    },
+    {
+      "years": "2026 – present",
+      "club": "Truong Tuoi Dong Nai FC",
+      "role": "Centre-Forward",
+      "note": {
+        "en": "Left Panserraikos as a free agent and signed for newly-promoted Truong Tuoi Dong Nai FC in Vietnam's top flight, embracing a new challenge abroad.",
+        "ro": "A plecat liber de contract de la Panserraikos și a semnat cu nou-promovata Truong Tuoi Dong Nai FC, din primul eșalon al Vietnamului, pentru o nouă provocare în străinătate."
+      }
+    }
+  ],
+  "keyStats": [
+    {
+      "value": 400,
+      "label": "Club Appearances",
+      "suffix": "+"
+    },
+    {
+      "value": 80,
+      "label": "Club Goals",
+      "suffix": ""
+    },
+    {
+      "value": 17,
+      "label": "Romania Cap",
+      "suffix": ""
+    },
+    {
+      "value": 1,
+      "label": "Romania Goal",
+      "suffix": ""
+    },
+    {
+      "value": 3,
+      "label": "Major Trophies",
+      "suffix": ""
+    }
+  ],
+  "highlights": [
+    {
+      "title": {
+        "en": "Senior Debut at 17",
+        "ro": "Debut la seniori, la 17 ani"
+      },
+      "description": {
+        "en": "Made his senior debut for Universitatea Craiova as a teenager, stepping into first-team football at one of Romania's most demanding clubs.",
+        "ro": "A debutat la echipa mare a Universității Craiova la doar 17 ani, intrând direct în fotbalul de prim eșalon la unul dintre cele mai exigente cluburi din România."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/0F0F11/888891?text=Senior+Debut"
+    },
+    {
+      "title": {
+        "en": "Move to FC Krasnodar",
+        "ro": "Transfer la FC Krasnodar"
+      },
+      "description": {
+        "en": "Left Romania for the Russian Premier League, joining FC Krasnodar and testing his game in a new football environment.",
+        "ro": "A părăsit România pentru Rusia, semnând cu FC Krasnodar și confruntându-se cu un nivel diferit de fotbal, într-un campionat puternic."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/111113/888891?text=FC+Krasnodar"
+    },
+    {
+      "title": {
+        "en": "Loan Spell at Rapid Wien",
+        "ro": "Împrumut la Rapid Viena"
+      },
+      "description": {
+        "en": "Spent a season on loan in Austria with Rapid Wien, gaining further international experience in a competitive European league.",
+        "ro": "A petrecut un sezon sub formă de împrumut la Rapid Viena, acumulând experiență internațională suplimentară într-un campionat european competitiv."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/161618/888891?text=Rapid+Wien"
+    },
+    {
+      "title": {
+        "en": "Return to Universitatea Craiova",
+        "ro": "Revenire la Universitatea Craiova"
+      },
+      "description": {
+        "en": "Returned to Craiova in 2019 for what became the most decorated stretch of his career, back at the club where it all began.",
+        "ro": "S-a întors la Craiova în 2019, pentru cel mai bogat capitol al carierei sale, revenind la clubul unde totul a început."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/0F0F11/888891?text=Return+to+Craiova"
+    },
+    {
+      "title": {
+        "en": "Romanian Cup Winner",
+        "ro": "Câștigător al Cupei României"
+      },
+      "description": {
+        "en": "Lifted the Romanian Cup with Universitatea Craiova, one of the defining trophies of his career.",
+        "ro": "A câștigat Cupa României alături de Universitatea Craiova, unul dintre trofeele definitorii ale carierei sale."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/111113/888891?text=Romanian+Cup"
+    },
+    {
+      "title": {
+        "en": "Romanian Super Cup Winner",
+        "ro": "Câștigător al Supercupei României"
+      },
+      "description": {
+        "en": "Added the Romanian Super Cup to his honours with Universitatea Craiova, confirming his status at the club.",
+        "ro": "A adăugat Supercupa României la palmares, alături de Universitatea Craiova, confirmându-și statutul la club."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/161618/888891?text=Romanian+Super+Cup"
+    },
+    {
+      "title": {
+        "en": "Romania National Team Debut",
+        "ro": "Debut la echipa națională a României"
+      },
+      "description": {
+        "en": "Earned his first senior cap for Romania in a match against Italy in 2015, an early recognition of his talent.",
+        "ro": "A debutat la naționala de seniori a României într-un meci cu Italia, în 2015, o primă recunoaștere a talentului său."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/0F0F11/888891?text=Romania+Debut"
+    },
+    {
+      "title": {
+        "en": "First Goal for Romania",
+        "ro": "Primul gol pentru România"
+      },
+      "description": {
+        "en": "Scored his first goal for the Romanian national team in 2021, a milestone in his international career.",
+        "ro": "A marcat primul gol pentru echipa națională a României în 2021, un moment important al carierei sale internaționale."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/111113/888891?text=First+Goal"
+    },
+    {
+      "title": {
+        "en": "A Season in Greek Football",
+        "ro": "Un sezon în fotbalul elen"
+      },
+      "description": {
+        "en": "Spent a season with Panserraikos, adding Greek football to a career already built across several European leagues.",
+        "ro": "A petrecut un sezon la Panserraikos, adăugând fotbalul elen unei cariere deja construite în mai multe campionate europene."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/161618/888891?text=Panserraikos"
+    },
+    {
+      "title": {
+        "en": "A New Chapter in Vietnam",
+        "ro": "Un nou capitol în Vietnam"
+      },
+      "description": {
+        "en": "Signed for newly-promoted Truong Tuoi Dong Nai FC in Vietnam's top flight as a free agent, choosing an exotic new challenge over a return to Romanian football.",
+        "ro": "A semnat liber de contract cu nou-promovata Truong Tuoi Dong Nai FC, din primul eșalon al Vietnamului, alegând o provocare nouă și exotică în locul unei reveniri în fotbalul românesc."
+      },
+      "videoUrl": "",
+      "thumbnail": "https://placehold.co/800x450/0F0F11/888891?text=Vietnam"
+    }
+  ],
+  "gallery": [
+    {
+      "src": "/assets/photos/gallery-01.jpg",
+      "alt": "Match action"
+    },
+    {
+      "src": "/assets/photos/gallery-02.jpg",
+      "alt": "Player portrait"
+    },
+    {
+      "src": "/assets/photos/gallery-03.jpg",
+      "alt": "Training session"
+    },
+    {
+      "src": "/assets/photos/gallery-04.jpg",
+      "alt": "Team celebration"
+    },
+    {
+      "src": "/assets/photos/gallery-05.jpg",
+      "alt": "Pre-match"
+    },
+    {
+      "src": "/assets/photos/gallery-06.jpg",
+      "alt": "Warm up"
+    }
+  ],
+	"videos": [
+    {
+      "title": {
+        "en": "Andrei Ivan career moments",
+        "ro": "Momente importante din cariera lui Andrei Ivan"
+      },
+      "description": {
+        "en": "A look back at key moments from Andrei Ivan's career on the pitch.",
+        "ro": "O privire asupra momentelor cheie din cariera lui Andrei Ivan pe teren."
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=BxqEsa7k4fw",
+      "thumbnail": "https://img.youtube.com/vi/BxqEsa7k4fw/hqdefault.jpg"
+    },
+    {
+      "title": {
+        "en": "Andrei Ivan — goals, skills and impact moments",
+        "ro": "Andrei Ivan — goluri, faze și momente de impact"
+      },
+      "description": {
+        "en": "Goals, skills and standout moments across Andrei Ivan's career.",
+        "ro": "Goluri, faze tehnice și momente memorabile din cariera lui Andrei Ivan."
+      },
+      "videoUrl": "https://www.youtube.com/watch?v=OuecL-yea0I",
+      "thumbnail": "https://img.youtube.com/vi/OuecL-yea0I/hqdefault.jpg"
+    }
+  ],
+  "socialLinks": {
+  "instagram": null,
+  "tiktok": null,
+  "facebook": null,
+  "youtube": null,
+  "x": null,
+  "transfermarkt": {
+    "handle": "Transfermarkt profile",
+    "url": "https://www.transfermarkt.com/andrei-ivan/profil/spieler/271282"
+  },
+  "linkedin": null,
+  "website": null
+  },
+  "contact": {
+    "contactMessage": {
+      "en": "For professional inquiries, media requests and partnership opportunities, please use the contact details below.",
+      "ro": "Pentru solicitări profesionale, cereri media și oportunități de parteneriat, folosiți datele de contact de mai jos."
+    },
+    "email": "contact@sportavo.ro",
+    "phone": null,
+    "whatsapp": null,
+    "showEmail": true,
+    "showPhone": false,
+    "showWhatsapp": false
+  },
+  "agentContact": {
+    "name": "Forward Sports",
+    "email": null,
+    "phone": null
+  },
+  "optional": {
+    "shirtNumber": null,
+    "height": "185 cm",
+    "foot": "Right",
+    "birthYear": 1997
+  },
+  "careerMoments": null,
+  "mediaArticles": null,
+  "latestUpdates": null,
+  "extendedGallery": null,
+  "featuredQuote": null,
+  "personalBrandSection": null
+}
