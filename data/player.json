@@ -25,7 +25,10 @@
     "en": "A Romanian forward shaped by pressure, expectation and big football moments, now writing a new chapter in Vietnamese football.",
     "ro": "Atacant român format sub presiune și așteptări mari, care scrie acum un nou capitol în fotbalul vietnamez."
   },
-  "position": "Forward",
+  "position": {
+    "en": "Centre-Forward",
+    "ro": "Atacant"
+  },
   "currentClub": "Truong Tuoi Dong Nai FC",
   "nationality": "Romania",
   "story": {

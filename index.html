@@ -1315,7 +1315,7 @@ function buildHero(p, lang) {
       <h1 class="hero-name">${p.name.split(' ')[0]} <span>${p.name.split(' ').slice(1).join(' ')}</span></h1>
       <p class="hero-headline">${t(p.headline, lang)}</p>
       <div class="hero-meta">
-        <span class="hero-tag accent">${ui(p.position, lang)}</span>
+        <span class="hero-tag accent">${t(p.position, lang)}</span>
         <span class="hero-tag">${p.currentClub}</span>
         <span class="hero-tag">${ui(p.nationality, lang)}</span>
       </div>
