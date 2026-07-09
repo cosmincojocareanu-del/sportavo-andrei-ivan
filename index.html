@@ -1257,6 +1257,15 @@ function tArr(field, lang) {
   return [String(field)];
 }
 
+// Resolve a root-relative asset path (e.g. "/assets/x.jpg") against the page's
+// own base path, so it works both at domain root (localhost) and under a
+// subpath (e.g. GitHub Pages project sites like /repo-name/). External URLs
+// are left untouched.
+function resolveAssetPath(path) {
+  if (!path || /^(https?:)?\/\//.test(path)) return path;
+  return path.replace(/^\//, '');
+}
+
 // ── Visibility helpers ────────────────────────────────────────
 
 function shouldShow(sections, key, hasData) {
@@ -1292,11 +1301,11 @@ function buildNav(p, sections, lang) {
 
 function buildHero(p, lang) {
   const videoHtml = p.heroVideo
-    ? `<video class="hero-video" autoplay muted loop playsinline poster="${p.heroImage || ''}">
-         <source src="${p.heroVideo}" type="video/mp4">
+    ? `<video class="hero-video" autoplay muted loop playsinline poster="${resolveAssetPath(p.heroImage) || ''}">
+         <source src="${resolveAssetPath(p.heroVideo)}" type="video/mp4">
        </video>`
     : '';
-  const heroBg = `<div class="hero-bg"${p.heroImage ? ` style="background-image:url('${p.heroImage}')"` : ''}>${videoHtml}</div>`;
+  const heroBg = `<div class="hero-bg"${p.heroImage ? ` style="background-image:url('${resolveAssetPath(p.heroImage)}')"` : ''}>${videoHtml}</div>`;
 
   return `
   <section id="hero" style="min-height:100svh;">
@@ -1359,7 +1368,7 @@ function buildStory(p, lang) {
           ${detailStrip}
         </div>
         <div class="story-image-frame reveal reveal-delay-2">
-          <img src="${p.profileImage}" alt="${p.name}" loading="lazy">
+          <img src="${resolveAssetPath(p.profileImage)}" alt="${p.name}" loading="lazy">
         </div>
       </div>
     </div>
@@ -1480,7 +1489,7 @@ function buildGallery(p, lang) {
     const alt = typeof img === 'string' ? 'Gallery photo' : (img.alt || 'Gallery photo');
     return `
     <div class="gallery-item">
-      <img src="${src}" alt="${alt}" loading="lazy">
+      <img src="${resolveAssetPath(src)}" alt="${alt}" loading="lazy">
     </div>`;
   }).join('');
 
@@ -1884,7 +1893,7 @@ function setLang(lang) {
 
 async function init() {
   try {
-    const res = await fetch('/data/player.json');
+    const res = await fetch('data/player.json');
     if (!res.ok) throw new Error('Could not load player.json');
     PLAYER = await res.json();
 
